@@ -1,23 +1,38 @@
-from flask import Flask
+from flask import Flask, request
 import pickle as pkl
 import pandas as pd
 import os
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
-def predict_film():
+@app.route('/predict')
+def predict():
     
-    print(os.getcwd())
+    num_votes = request.args.get('num_votes')
+    startyear = request.args.get('startyear')
+    runtimeminutes = request.args.get('runtimeminutes')
+    
+    return predict_film(num_votes, startyear, runtimeminutes)
+ 
+def predict_film(num_votes, startyear, runtimeminutes):
+    '''
+    Returns de prediction for a film
+
+    Parameters:
+        num_votes: votes of the film in IMDB
+        startyear: year it was filmed
+        runtimeminutes: minutes of the film
+    
+    Return:
+        String: the prediction Buena o Mala
+    '''
+    
+    # Get trained model
     model = pkl.load(open("./src/mdb_class.pkl", "rb"))
 
-    X = [[2092354, 2010, 148 ]]
+    X = [[num_votes, startyear, runtimeminutes ]]
 
-    print(model.predict(X))
-    print("hola")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    return str(model.predict(X))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
 if __name__ == "__main__":
-    predict_film()
+    print(predict_film())
