@@ -24,7 +24,7 @@ def predict_film(num_votes, startyear, runtimeminutes):
         runtimeminutes: minutes of the film
     
     Return:
-        String: the prediction Buena o Mala
+        pred: String, the prediction Buena o Mala
     '''
     
     # Get trained model
